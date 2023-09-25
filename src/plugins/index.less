@@ -1,0 +1,22 @@
+.source-code {
+  &-wrapper{
+    outline: 2px dashed var(--n50);
+    cursor: pointer;
+    &.active{
+      outline: 2px dashed var(--br60);
+    }
+  }
+  margin: 20px 0;
+  table {
+    font-size: 0;
+    td {
+      padding: 0;
+    }
+  }
+}
+.popo-public-source-code {
+  outline: none;
+  font-size: var(--r-editor-content-font-size);
+  font-weight: var(--r-editor-content-font-weight);
+  min-height: 300px;
+}
