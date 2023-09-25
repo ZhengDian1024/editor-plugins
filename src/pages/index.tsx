@@ -10,10 +10,54 @@ import Editor, {
 import createSourceCodePlugin from '../plugins';
 import createPreviewPlugin from '../plugin-preview';
 import createUnwrapImagePlugin from '../plugin-unwrapimage';
+import createTagPlugin from '../plugin-tag';
 import '@bedrock/components/style.css';
 import ReactDOM from 'react-dom';
 import { request } from 'umi';
 // import EditorComp from './editor'
+
+const TAG_LIST = [
+  {
+    id: 1,
+    fieldName: '应聘职位',
+    htmlValue: '<span class="keyword-item">应聘职位</span>',
+  },
+  {
+    id: 2,
+    fieldName: '应聘部门',
+    htmlValue: '<span class="keyword-item">应聘部门</span>',
+  },
+  {
+    id: 3,
+    fieldName: '应聘职位',
+    htmlValue: '<span class="keyword-item">应聘职位</span>',
+  },
+  {
+    id: 4,
+    fieldName: '应聘部门',
+    htmlValue: '<span class="keyword-item">应聘部门</span>',
+  },
+  {
+    id: 5,
+    fieldName: '应聘职位',
+    htmlValue: '<span class="keyword-item">应聘职位</span>',
+  },
+  {
+    id: 6,
+    fieldName: '应聘部门',
+    htmlValue: '<span class="keyword-item">应聘部门</span>',
+  },
+  {
+    id: 7,
+    fieldName: '应聘职位',
+    htmlValue: '<span class="keyword-item">应聘职位</span>',
+  },
+  {
+    id: 8,
+    fieldName: '应聘部门',
+    htmlValue: '<span class="keyword-item">应聘部门</span>',
+  },
+];
 
 const uploadImage = function (file, { onProgress }) {
   if (!file) return Promise.reject('no file');
@@ -62,6 +106,7 @@ export default function IndexPage() {
         isBlock: true,
         allowEdit: true,
       },
+      fullScreen: true,
     },
     uploadImage,
     getPlugins: () => [
@@ -74,6 +119,9 @@ export default function IndexPage() {
       createTablePlugin(),
       createSourceCodePlugin(),
       createPreviewPlugin(),
+      createTagPlugin({
+        tagList: TAG_LIST,
+      }),
     ],
   };
 
