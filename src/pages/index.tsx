@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@bedrock/components';
 // import Editor, { createEmojiPlugin } from "../../../../Work/bedrock-editor/packages/editor/es";
-import Editor, { createEmojiPlugin, createTablePlugin, createPopoLinkPlugin, createCalloutPlugin } from '@bedrock/editor';
-// import createSourceCodePlugin from '../plugins'
+import Editor, {
+  createEmojiPlugin,
+  createTablePlugin,
+  createPopoLinkPlugin,
+  createCalloutPlugin,
+} from '@bedrock/editor';
+import createSourceCodePlugin from '../plugins';
+import createPreviewPlugin from '../plugin-preview';
 import createUnwrapImagePlugin from '../plugin-unwrapimage';
 import '@bedrock/components/style.css';
 import ReactDOM from 'react-dom';
@@ -28,7 +34,7 @@ const uploadImage = function (file, { onProgress }) {
     data: formData,
     params: { wait: 3 * 1000 },
   })
-    .then(res => {
+    .then((res) => {
       return {
         // ...omit(res.data, ['width', 'height']),
         ...res.data,
@@ -48,25 +54,27 @@ export default function IndexPage() {
   const initialValue = '<p></p>';
   const [es, setEs] = useState();
   const [ready, setReady] = useState(false);
-  console.log('editor rerender')
+  console.log('editor rerender');
 
   const config = {
     features: {
       image: {
         isBlock: true,
-        allowEdit: true
+        allowEdit: true,
       },
     },
     uploadImage,
-    getPlugins: ()=>[
+    getPlugins: () => [
       createPopoLinkPlugin({
-        allowInputName: true
+        allowInputName: true,
       }),
       createCalloutPlugin({
-        hideEmoji: true
+        hideEmoji: true,
       }),
-      createTablePlugin()
-    ]
+      createTablePlugin(),
+      createSourceCodePlugin(),
+      createPreviewPlugin(),
+    ],
   };
 
   return (
@@ -75,7 +83,10 @@ export default function IndexPage() {
         <Editor
           initialHtml={initialValue}
           editorState={es}
-          onChange={(es) => { console.log('外层触发change'); setEs(es) }}
+          onChange={(es) => {
+            console.log('外层触发change');
+            setEs(es);
+          }}
           style={{ '--r-editor-content-min-height': '240px' }}
           config={config}
         />

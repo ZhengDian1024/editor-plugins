@@ -19,10 +19,17 @@
       "prettier --parser=typescript --write"
     ]
   },
+  "resolutions": {
+    "prosemirror-model": "1.18.3",
+    "prosemirror-state": "1.4.2",
+    "prosemirror-transform": "1.6.0",
+    "prosemirror-view": "1.29.1",
+    "@swc/helpers": "0.4.14"
+  },
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
     "@bedrock/components": "~2.2.30",
-    "@bedrock/editor": "^1.0.33",
+    "@bedrock/editor": "^1.0.35",
     "@bedrock/icons-react": "~2.2.5",
     "@douyinfe/semi-ui": "^2.1.5",
     "react": "^18.2.0",

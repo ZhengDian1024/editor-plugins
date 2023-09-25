@@ -4,7 +4,7 @@ import { RockEditorPlugin } from '@bedrock/editor';
 import { SourceCodeSpec } from './SourceCodeSpec';
 import './index.less';
 import createSelectToolbar from './SourceCodeToolbar';
-import createSourceCodeNodeView from './SourceCodeNodeView'
+import createSourceCodeNodeView from './SourceCodeNodeView';
 
 function createSourcePlugin() {
   return new RockEditorPlugin({
@@ -12,11 +12,11 @@ function createSourcePlugin() {
     nodeSpecs: {
       ['SourceCode']: SourceCodeSpec,
     },
-    nodeViews:{
-      ['SourceCode']: createSourceCodeNodeView()
+    nodeViews: {
+      ['SourceCode']: createSourceCodeNodeView(),
     },
     getToolbarConfig: (config) => {
-      config[3].push(createSelectToolbar());
+      config[4].push(createSelectToolbar());
       return config;
     },
   });

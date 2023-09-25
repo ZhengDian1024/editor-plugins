@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 // import Editor, { createEmojiPlugin } from "../../../../Work/bedrock-editor/packages/editor/es";
-import Editor, { createEmojiPlugin, createCalloutPlugin, createTablePlugin } from '@bedrock/editor';
-// import createSourceCodePlugin from '../plugins'
+import Editor, {
+  createEmojiPlugin,
+  createCalloutPlugin,
+  createTablePlugin,
+} from '@bedrock/editor';
+import createSourceCodePlugin from '../plugins';
 import '@bedrock/components/style.css';
 import ReactDOM from 'react-dom';
 
 export default function IndexPage(props) {
   const initialValue = '<p></p>';
   const [es, setEs] = useState();
-  console.log('editor rerender')
+  console.log('editor rerender');
 
   const config = {
     features: {
@@ -23,19 +27,25 @@ export default function IndexPage(props) {
         height: 200,
       });
     },
-    getPlugins: () => [createCalloutPlugin({ hideEmoji: true }), createTablePlugin()],
+    getPlugins: () => [
+      createCalloutPlugin({ hideEmoji: true }),
+      createTablePlugin(),
+      createSourceCodePlugin(),
+    ],
   };
 
-
   return (
-    <div> <Editor
-      initialHtml={initialValue}
-      editorState={es}
-      //@ts-ignore
-      onChange={setEs}
-      style={{ '--r-editor-content-min-height': '240px' }}
-      config={config}
-    />,
+    <div>
+      {' '}
+      <Editor
+        initialHtml={initialValue}
+        editorState={es}
+        //@ts-ignore
+        onChange={setEs}
+        style={{ '--r-editor-content-min-height': '240px' }}
+        config={config}
+      />
+      ,
     </div>
   );
 }
