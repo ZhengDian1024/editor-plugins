@@ -7,23 +7,28 @@ import {
   createPopup,
   convertToHTML,
 } from '@bedrock/editor';
+import ReactDOM from 'react-dom';
+import { DropdownItem } from './index';
 
 class TagCommand extends UICommand {
   name = 'Tag';
   optionList: any;
   _popUp: any = null;
-  constructor(
-    icon: any,
-    options: { tooltip?: any; desc?: any; optionList: any },
-  ) {
+  constructor(icon: any, options: { tooltip?: any; desc?: any }) {
     super();
     this.icon = icon;
-    this.tooltip = options.tooltip ?? {};
     this.desc = options.desc ?? {};
-    this.optionList = options.optionList || [];
   }
+
   isEnabled = (state: EditorState) => true;
 
+  execute = (
+    state: EditorState,
+    dispatch?: (tr: Transaction) => void,
+    view?: EditorView,
+  ) => {
+    return true;
+  };
   waitForUserInput = (
     state: EditorState,
     dispatch?: (tr: Transaction) => void,
@@ -33,7 +38,7 @@ class TagCommand extends UICommand {
       return Promise.resolve(undefined);
     }
     return new Promise((resolve) => {
-      console.log(state, dispatch, view);
+      // console.log(state, dispatch, view);
       // this._popUp = createPopup(PreviewModal, {
       //   content: convertToHTML(state),
       //   onOk: (values: any) => {
@@ -56,6 +61,7 @@ class TagCommand extends UICommand {
     view?: EditorView,
     values?: { content: string; href: string },
   ): boolean => {
+    console.log('executeWithUserInput');
     if (!values) return true;
     // const { content } = values;
     // if (dispatch) {
