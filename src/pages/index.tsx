@@ -8,7 +8,6 @@ import Editor, {
   PluginKey,
 } from '@bedrock/editor';
 import type { EditorState, RockEditorView } from '@bedrock/editor';
-import { Selection, TextSelection } from 'prosemirror-state';
 import createSourceCodePlugin from '../plugins';
 import createPreviewPlugin from '../plugin-preview';
 import createTagPlugin from '../plugin-tag';
@@ -92,6 +91,14 @@ const uploadImage = function (file, { onProgress }) {
     });
 };
 
+const customPreview = (
+  html: string,
+) => `<div style="width: 750px; margin: 0 auto;">
+<div style="min-height: 128px; background-image: url(https://nos.netease.com/rms/7cf241cf1fb0b61f07d29dca9dce75cf); background-repeat: no-repeat; background-size: cover;">
+<div style="padding: 70px 55px 0; overflow: hidden; font-size: 24px; color: #FFF; text-overflow: ellipsis; word-wrap: normal; white-space: nowrap; ">
+<strong>邮件标题</strong>
+</div></div><div style="padding: 20px 55px; background-color: #A00405;"><div style="padding: 30px; background-color: #FFF; border-radius: 10px;">${html}</div></div><div style="height: 95px; background-image: url(https://nos.netease.com/rms/b2a0bcacab15a20508de56e0d69eedc4); background-repeat: no-repeat; background-size: cover;"></div></div>`;
+
 export default function IndexPage() {
   const [es, setEs] = useState();
   const [isReady, setIsReady] = useState(false);
@@ -117,7 +124,9 @@ export default function IndexPage() {
       }),
       createTablePlugin(),
       createSourceCodePlugin(),
-      createPreviewPlugin(),
+      createPreviewPlugin({
+        customPreview,
+      }),
       createTagPlugin(),
     ],
   };
@@ -135,26 +144,6 @@ export default function IndexPage() {
       const node = tagNode.create({ name: data.fieldName }, null, undefined);
       tr = tr!.replaceSelectionWith(node);
       dispatch(tr);
-
-      // 获取当前的selection
-      const selection = editorState?.selection;
-
-      // @ts-ignore 获取当前的TextSelection
-      const textSelection =
-        selection instanceof TextSelection ? selection?.$cursor : selection;
-
-      // 获取当前的光标位置和节点
-      const { pos, nodeBefore, nodeAfter } = textSelection;
-      console.log('textSelection', textSelection, pos, nodeBefore, nodeAfter);
-      // console.log('editorState?.docView', editorView?.docView, editorView?.docView?.posAtCoords)
-      // 将滚动位置设置为当前光标所在位置的 +5px
-      // const scrollPos = editorView?.docView.posAtCoords({ left: nodeAfter ? 5 : -5, top: 0 });
-      //
-      // // 创建新的Selection
-      // const newSelection = Selection.near(editorState?.doc.resolve(scrollPos.pos));
-      //
-      // // 更新state
-      // dispatch(tr.setSelection(newSelection));
     }
     editorView && editorView.focus();
   };

@@ -12,11 +12,16 @@ import PreviewModal from './modal';
 class PreviewCommand extends UICommand {
   name = 'Preview';
   _popUp: any = null;
-  constructor(icon: any, options: { tooltip?: any; desc?: any }) {
+  customPreview: any;
+  constructor(
+    icon: any,
+    options: { tooltip?: any; desc?: any; customPreview?: any },
+  ) {
     super();
     this.icon = icon;
     this.tooltip = options.tooltip ?? {};
     this.desc = options.desc ?? {};
+    this.customPreview = options.customPreview ?? null;
   }
   isEnabled = (state: EditorState) => true;
 
@@ -30,7 +35,9 @@ class PreviewCommand extends UICommand {
     }
     return new Promise((resolve) => {
       this._popUp = createPopup(PreviewModal, {
-        content: convertToHTML(state),
+        content: this.customPreview
+          ? this.customPreview(convertToHTML(state))
+          : convertToHTML(state),
         onOk: (values: any) => {
           resolve(values);
           this._popUp.destroy();
